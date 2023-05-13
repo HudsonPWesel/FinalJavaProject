@@ -19,36 +19,64 @@ public class Entity {
     public final int RIGHT = 1;
     public final int UP = 2;
     public final int DOWN = 3;
+    public int animationIndex = -1;
 
-    public Entity(int xPos, int yPos, int quickness, String spriteSheetPath, int[] spriteDimensions) {
+    HashMap<String, ArrayList<BufferedImage>> spriteAnimationCycles;
+
+    public Entity(int xPos, int yPos, int quickness, Sprite sprite) {
         this.xPos = xPos;
         this.yPos = yPos;
         this.quickness = quickness;
-        setSprites(spriteSheetPath, spriteDimensions);
+
+        setSprites(sprite);
     }
 
-    private void setSprites(String spriteSheetPath, int[] spriteDimensions, String[] spriteRowNames) {
+    private void setSprites(Sprite sprite) {
 
-        BufferedImage spriteSheet = ImageIO.read(
-                PathFinder.getFilePathForFile(spriteSheetPath).toFile());
+        // Intilize Sprite Sheet Image
+        BufferedImage spriteSheetImage = initSpriteSheet(sprite.spritesheetFileName);
 
-        int imageWidth = spriteSheet.getWidth();
-        int imageHeight = spriteSheet.getHeight();
+        // Get All Sprites and add them to a corrosponding HashMap(Row,
+        // ArrayList<Sprites Associated w/ Animation> )
+        this.spriteAnimationCycles = initAnimationCycles(spriteSheetImage, sprite);
 
-        int numRows = imageHeight / spriteDimensions[0];
-        int numCols = imageWidth / spriteDimensions[0];
+    }
 
+    private BufferedImage initSpriteSheet(String spriteSheetPath) {
         // ImageIO.read(PathFinder(sprites[i]).toFile());
-        HashMap<String, ArrayList<BufferedImage>> animationCycles = new HashMap<String, ArrayList<BufferedImage>>();
+        try {
+            return ImageIO.read(
+                    PathFinder.getFilePathForFile(spriteSheetPath).toFile());
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new Error("SpriteSheet Not Found!");
+        }
+
+    }
+
+    private HashMap<String, ArrayList<BufferedImage>> initAnimationCycles(BufferedImage spriteSheet,
+            Sprite sprite) {
+
+        HashMap<String, ArrayList<BufferedImage>> currentAnimationCycles = new HashMap<String, ArrayList<BufferedImage>>();
+
+        int numRows = sprite.animationCycleRowNames.length;
 
         for (int row = 0; row < numRows; row++) {
-            animationCycles.put(spriteRowNames[row], new ArrayList<BufferedImage>());
-            for (int col = 0; col < numCols; col++) {
-                animationCycles.get(spriteRowNames[row]).add(spriteSheet.getSubimage(((col * imageWidth) + imageWidth),
-                        ((row * height) + height), imageWidth, imageHeight));
+
+            currentAnimationCycles.put(sprite.animationCycleRowNames[row], new ArrayList<BufferedImage>());
+
+            for (int col = 0; col < sprite.spriteColumnSequence[row]; col++) {
+                int spriteXPos = col * sprite.width;
+                int spriteYPos = row * sprite.height;
+                // 120,130
+                //
+                currentAnimationCycles.get(sprite.animationCycleRowNames[row]).add(spriteSheet.getSubimage((spriteXPos),
+                        (spriteYPos), sprite.width, sprite.height));
                 // Doesn't account for blanks
             }
         }
+
+        return currentAnimationCycles;
     }
 
     class PathFinder {
@@ -56,7 +84,6 @@ public class Entity {
         private static Path filepath;
 
         public static Path getFilePathForFile(String filename) {
-
             try {
                 filepath = Files.walk(Paths.get("."))
                         .collect(Collectors.toList()).stream()
@@ -69,4 +96,5 @@ public class Entity {
             return filepath;
         }
     }
+
 }

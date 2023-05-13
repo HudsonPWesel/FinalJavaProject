@@ -3,10 +3,7 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 
-import javax.sound.sampled.SourceDataLine;
 import javax.swing.JPanel;
-
-import Entities.Player;
 
 public class GamePanel extends JPanel implements Runnable {
     final int originalTileSize = 16;
@@ -21,7 +18,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     Thread gameThread;
     KeyHandler keyHandler = new KeyHandler();
-    Player player = new Player(this, keyHandler, "sprite-sheet.png");
+    Player player = new Player(this, keyHandler, "player-spritesheet.png");
 
     public GamePanel() {
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));

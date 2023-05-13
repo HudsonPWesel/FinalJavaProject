@@ -1,5 +1,3 @@
-import java.awt.Color;
-import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
@@ -7,10 +5,16 @@ public class Player extends Entity {
 
     GamePanel gamePanel;
     KeyHandler keyHandler;
-    String[] sprites;
+    BufferedImage displaySprite = null;
 
-    public Player(GamePanel gamePanel, KeyHandler keyHandler, String[] sprites) {
-        super(100, 100, 6, sprites);
+    public Player(GamePanel gamePanel, KeyHandler keyHandler, String spriteSheetPath) {
+        // Super must be the first line
+        super(100, 100, 6, new Sprite(spriteSheetPath,
+                new int[] { 120, 130 },
+                new String[] { "Standing-Downward", "Standing-Left", "Standing-Upward", "Standing-Right",
+                        "Walking-Downward", "Walking-Left", "Walking-Upward", "Walking-Right" },
+                new int[] { 3, 3, 1, 3, 10, 10, 10, 10 }));
+
         this.gamePanel = gamePanel;
         this.keyHandler = keyHandler;
         super.direction = -1;
@@ -33,30 +37,49 @@ public class Player extends Entity {
             xPos -= quickness;
             direction = this.LEFT;
         }
+        // todo FIX ANIMATION
     }
 
     public void draw(Graphics2D g2d) {
 
-        BufferedImage displaySprite = null;
-
         switch (direction) {
             case UP:
-                displaySprite = this.up1;
+                updateAnimationIndex("Walking-Upward");
+                displaySprite = this.spriteAnimationCycles.get("Walking-Upward").get(animationIndex);
                 break;
             case DOWN:
-                displaySprite = this.up2;
+                updateAnimationIndex("Walking-Downward");
+                displaySprite = this.spriteAnimationCycles.get("Walking-Downward").get(animationIndex);
                 break;
             case LEFT:
-                System.out.println(LEFT);
+                updateAnimationIndex("Walking-Left");
+
+                displaySprite = this.spriteAnimationCycles.get("Walking-Left").get(animationIndex);
                 break;
             case RIGHT:
-                System.out.println(RIGHT);
+                updateAnimationIndex("Walking-Right");
+                displaySprite = this.spriteAnimationCycles.get("Walking-Right").get(animationIndex);
+
                 break;
             default:
                 direction = -1;
+                displaySprite = this.spriteAnimationCycles.get("Standing-Downward").get(0);
         }
+        System.out.println(animationIndex);
 
         g2d.drawImage(displaySprite, xPos, yPos, gamePanel.tileSize, gamePanel.tileSize, null);
+
+    }
+
+    private void updateAnimationIndex(String animationCycleRowName) {
+        boolean isNewDirection = animationIndex != 0;
+        boolean shouldRepeatAnimation = animationIndex == spriteAnimationCycles.get(animationCycleRowName).size() - 1;
+        if (isNewDirection)
+            animationIndex = 0;
+        else if (!isNewDirection && shouldRepeatAnimation)
+            animationIndex = 0;
+        else
+            animationIndex++;
 
     }
 

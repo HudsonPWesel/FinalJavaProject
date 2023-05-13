@@ -41,6 +41,7 @@ public class KeyHandler implements KeyListener {
         switch (keyCode) {
             case KeyEvent.VK_W:
                 upPressed = false;
+
                 break;
             case KeyEvent.VK_D:
                 rightPressed = false;
