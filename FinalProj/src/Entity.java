@@ -79,6 +79,47 @@ public class Entity {
         return currentAnimationCycles;
     }
 
+    /**
+     * Returns the specific sprite needed for the current frame
+     * 
+     * @param animationCycleKey should be the left side of the - (Walking,
+     *                          Standing,etc.)
+     * @return
+     */
+
+    public BufferedImage getAnimationSprite(String animationCycleKey) {
+        switch (direction) {
+            case UP:
+                updateAnimationIndex(animationCycleKey + "-Upward");
+                return this.spriteAnimationCycles.get(animationCycleKey + "-Upward").get(animationIndex);
+            case DOWN:
+                updateAnimationIndex(animationCycleKey + "-Downward");
+                return this.spriteAnimationCycles.get(animationCycleKey + "-Downward").get(animationIndex);
+            case LEFT:
+                updateAnimationIndex(animationCycleKey + "-Left");
+                return this.spriteAnimationCycles.get(animationCycleKey + "-Left").get(animationIndex);
+            case RIGHT:
+                updateAnimationIndex(animationCycleKey + "-Right");
+                return this.spriteAnimationCycles.get(animationCycleKey + "-Right").get(animationIndex);
+            default:
+                direction = -1;
+                return this.spriteAnimationCycles.get(animationCycleKey + "-Downward").get(0);
+        }
+
+    }
+
+    public void updateAnimationIndex(String animationCycleRowName) {
+        boolean isNewDirection = animationIndex != 0;
+        boolean shouldRepeatAnimation = animationIndex == spriteAnimationCycles.get(animationCycleRowName).size() - 1;
+        if (isNewDirection)
+            animationIndex = 0;
+        else if (!isNewDirection && shouldRepeatAnimation)
+            animationIndex = 0;
+        else
+            animationIndex++;
+
+    }
+
     class PathFinder {
 
         private static Path filepath;

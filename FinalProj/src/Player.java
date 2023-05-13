@@ -40,73 +40,20 @@ public class Player extends Entity {
         // todo FIX ANIMATION
     }
 
-    public void draw(Graphics2D g2d) {
+    /**
+     * Draws The Proper Sprite for the current frame
+     * 
+     * @param g2d needed for drawing the sprite on screen
+     */
 
-        switch (direction) {
-            case UP:
-                updateAnimationIndex("Walking-Upward");
-                displaySprite = this.spriteAnimationCycles.get("Walking-Upward").get(animationIndex);
-                break;
-            case DOWN:
-                updateAnimationIndex("Walking-Downward");
-                displaySprite = this.spriteAnimationCycles.get("Walking-Downward").get(animationIndex);
-                break;
-            case LEFT:
-                updateAnimationIndex("Walking-Left");
-                displaySprite = this.spriteAnimationCycles.get("Walking-Left").get(animationIndex);
-                break;
-            case RIGHT:
-                updateAnimationIndex("Walking-Right");
-                displaySprite = this.spriteAnimationCycles.get("Walking-Right").get(animationIndex);
-                break;
-            default:
-                direction = -1;
-                displaySprite = this.spriteAnimationCycles.get("Standing-Downward").get(0);
-        }
+    public void draw(Graphics2D g2d) {
 
         boolean isStandingStill = !keyHandler.upPressed && !keyHandler.downPressed && !keyHandler.leftPressed
                 && !keyHandler.rightPressed;
 
-        if (isStandingStill) {
-            switch (direction) {
-                case UP:
-                    updateAnimationIndex("Standing-Upward");
-                    displaySprite = this.spriteAnimationCycles.get("Standing-Upward").get(animationIndex);
-                    break;
-                case DOWN:
-                    updateAnimationIndex("Standing-Downward");
-                    displaySprite = this.spriteAnimationCycles.get("Standing-Downward").get(animationIndex);
-                    break;
-                case LEFT:
-                    updateAnimationIndex("Standing-Left");
-
-                    displaySprite = this.spriteAnimationCycles.get("Standing-Left").get(animationIndex);
-                    break;
-                case RIGHT:
-                    updateAnimationIndex("Standing-Right");
-                    displaySprite = this.spriteAnimationCycles.get("Standing-Right").get(animationIndex);
-
-                    break;
-                default:
-                    direction = -1;
-                    displaySprite = this.spriteAnimationCycles.get("Standing-Downward").get(0);
-            }
-
-        }
+        displaySprite = isStandingStill ? getAnimationSprite("Standing") : getAnimationSprite("Walking");
 
         g2d.drawImage(displaySprite, xPos, yPos, gamePanel.tileSize, gamePanel.tileSize, null);
-
-    }
-
-    private void updateAnimationIndex(String animationCycleRowName) {
-        boolean isNewDirection = animationIndex != 0;
-        boolean shouldRepeatAnimation = animationIndex == spriteAnimationCycles.get(animationCycleRowName).size() - 1;
-        if (isNewDirection)
-            animationIndex = 0;
-        else if (!isNewDirection && shouldRepeatAnimation)
-            animationIndex = 0;
-        else
-            animationIndex++;
 
     }
 
