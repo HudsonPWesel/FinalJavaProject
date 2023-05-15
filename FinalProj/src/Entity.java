@@ -101,6 +101,7 @@ public class Entity {
             case RIGHT:
                 updateAnimationIndex(animationCycleKey + "-Right");
                 return this.spriteAnimationCycles.get(animationCycleKey + "-Right").get(animationIndex);
+
             default:
                 direction = -1;
                 return this.spriteAnimationCycles.get(animationCycleKey + "-Downward").get(0);
@@ -118,24 +119,6 @@ public class Entity {
         else
             animationIndex++;
 
-    }
-
-    class PathFinder {
-
-        private static Path filepath;
-
-        public static Path getFilePathForFile(String filename) {
-            try {
-                filepath = Files.walk(Paths.get("."))
-                        .collect(Collectors.toList()).stream()
-                        .filter(file -> !Files.isDirectory(file) &&
-                                file.getFileName().toString().startsWith(filename))
-                        .findFirst().get();
-            } catch (IOException exception) {
-
-            }
-            return filepath;
-        }
     }
 
 }
