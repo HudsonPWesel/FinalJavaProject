@@ -19,6 +19,10 @@ public class TileManager {
         setTileSprites();
     }
 
+    // Get the entire Map
+    // Set the screen to specific part of map
+    // AS the player moves the screenX & screenY changes.
+
     private void setTileSprites() {
 
         File directoryPath = new File("./FinalProj/Sprites/Background-Tiles");
@@ -41,7 +45,7 @@ public class TileManager {
     }
 
     private String[][] getTextMapContent(String filePath) {
-        String[][] map = new String[gamePanel.maxScreenRow][gamePanel.maxScreenCol];
+        String[][] map;
 
         Scanner scan = null;
         try {
@@ -53,12 +57,16 @@ public class TileManager {
         }
 
         ArrayList<String> lines = new ArrayList<String>();
-
+        int rowCount = 0;
+        int colCount;
         while (scan.hasNext()) {
             String line = scan.nextLine();
             lines.add(line);
+            rowCount++;
         }
         scan.close();
+        colCount = lines.get(0).length();
+        map = new String[rowCount][colCount];
 
         for (int i = 0; i < lines.size(); i++)
             for (int j = 0; j < lines.get(i).length(); j++)
