@@ -1,11 +1,12 @@
 import java.awt.Graphics2D;
+import java.util.List;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
-
+import java.util.Arrays;
 import javax.imageio.ImageIO;
 
 public class TileManager {
@@ -26,7 +27,9 @@ public class TileManager {
 
         for (String fileName : contents) {
             try {
-                tiles.add(new Tile(ImageIO.read(PathFinder.getFilePathForFile(fileName).toFile())));
+
+                tiles.add(new Tile(ImageIO.read(PathFinder.getFilePathForFile(fileName).toFile()),
+                        fileName.substring(0, fileName.indexOf("."))));
             } catch (IOException e) {
                 // TODO Auto-generated catch block
                 System.out.println("Failed to find FilePathForFile: " + fileName);

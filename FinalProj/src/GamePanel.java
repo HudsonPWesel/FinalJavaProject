@@ -79,7 +79,7 @@ public class GamePanel extends JPanel implements Runnable {
         super.paintComponent(g);
 
         Graphics2D g2d = (Graphics2D) g;
-        System.out.println(PathFinder.getFilePathForFile("map.txt").toAbsolutePath().toString());
+
         tileManager.draw(g2d, PathFinder.getFilePathForFile("map.txt").toAbsolutePath().toString());
         player.draw(g2d);
 
