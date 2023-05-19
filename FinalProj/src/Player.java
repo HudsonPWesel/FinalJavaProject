@@ -13,8 +13,8 @@ public class Player extends Entity {
 
     public Player(GamePanel gamePanel, KeyHandler keyHandler, String spriteSheetPath) {
         // Super must be the first line
-        super(gamePanel.tileSize * 23,
-                gamePanel.tileSize * 21, 6, new Sprite(spriteSheetPath,
+        super(gamePanel.tileSize * 10,
+                gamePanel.tileSize * 10, 6, new Sprite(spriteSheetPath,
                         new int[] { 120, 130 },
                         new String[] { "Standing-Downward", "Standing-Left", "Standing-Upward", "Standing-Right",
                                 "Walking-Downward", "Walking-Left", "Walking-Upward", "Walking-Right" },
@@ -23,8 +23,10 @@ public class Player extends Entity {
         this.gamePanel = gamePanel;
         this.keyHandler = keyHandler;
         super.direction = -1;
+
         screenX = gamePanel.screenWidth / 2 - (gamePanel.tileSize / 2);
         screenY = gamePanel.screenHeight / 2 - (gamePanel.tileSize / 2);
+
     }
 
     public void update() {

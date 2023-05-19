@@ -1,13 +1,11 @@
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
-import java.util.List;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
-import java.util.Arrays;
 import javax.imageio.ImageIO;
 
 public class TileManager {
@@ -34,7 +32,7 @@ public class TileManager {
 
     private void setTileSprites() {
 
-        File directoryPath = new File("./Sprites/Background-Tiles");
+        File directoryPath = new File("./FinalProj/Sprites/Background-Tiles");
 
         String contents[] = directoryPath.list();
 
@@ -109,33 +107,43 @@ public class TileManager {
          * 
          */
 
-        // for (int row = 0; row < gamePanel.maxWorldRow; row++) {
-        // for (int col = 0; col < gamePanel.maxWorldCol; col++) {
+        for (int row = 0; row < gamePanel.maxWorldRow; row++) {
+            for (int col = 0; col < gamePanel.maxWorldCol; col++) {
 
-        // int worldX = col * gamePanel.tileSize;
-        // int worldY = row * gamePanel.tileSize;
+                int worldX = col * gamePanel.tileSize;
+                int worldY = row * gamePanel.tileSize;
+                // 0,0 | 16
 
-        // int screeeenX = worldX - gamePanel.player.worldX + gamePanel.player.worldX;
-        // int screeeenY = worldY - gamePanel.player.worldY + gamePanel.player.worldY;
+                int screenX = worldX - gamePanel.player.worldX;
+                int screenY = worldY - gamePanel.player.worldY;
+                // System.out.println(gamePanel.player.worldX);
 
-        // g2d.drawImage(tiles.get(Integer.parseInt(map[row][col])).sprite, screeeenX,
-        // screeeenY, gamePanel.tileSize, gamePanel.tileSize, null);
-        // }
-        // }
-        int worldCol = 0;
-        int worldRow = 0;
+                // 0,0
 
-        while (worldCol < gamePanel.maxWorldCol && worldRow < gamePanel.maxWorldRow) {
-            BufferedImage tile = tiles.get(Integer.parseInt(map[worldRow][worldCol])).sprite;
-            int worldX = worldCol * gamePanel.tileSize;
-            int worldY = worldRow * gamePanel.tileSize;
-
-            int screenX = worldX - gamePanel.player.worldX + gamePanel.player.worldX;
-            int screenY = worldY - gamePanel.player.worldY + gamePanel.player.worldY;
-
-            g2d.drawImage(tiles.get(Integer.parseInt(map[row][col])).sprite, screeeenX,
-                    screeeenY, gamePanel.tileSize, gamePanel.tileSize, null);
+                g2d.drawImage(tiles.get(Integer.parseInt(map[row][col])).sprite, screenX,
+                        screenY, gamePanel.tileSize, gamePanel.tileSize, null);
+            }
         }
+
+        // while (worldCol < gamePanel.maxWorldCol && worldRow < gamePanel.maxWorldRow)
+        // {
+        // BufferedImage tile =
+        // tiles.get(Integer.parseInt(map[worldRow][worldCol])).sprite;
+
+        // int worldX = worldCol * gamePanel.tileSize;
+        // int worldY = worldRow * gamePanel.tileSize;
+
+        // int screenX = worldX - gamePanel.player.worldX + gamePanel.player.worldX;
+        // int screenY = worldY - gamePanel.player.worldY + gamePanel.player.worldY;
+
+        // g2d.drawImage(tile, screenX,
+        // screenY, gamePanel.tileSize, gamePanel.tileSize, null);
+
+        // if (worldCol == gamePanel.maxWorldCol) {
+        // worldCol = 0;
+        // worldRow++;
+        // }
+        // }
 
     }
 }
