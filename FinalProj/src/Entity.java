@@ -1,16 +1,12 @@
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.stream.Collectors;
 
 import javax.imageio.ImageIO;
 
 public class Entity {
-    public int xPos, yPos;
+    public int worldX, worldY;
     public int quickness;
     public BufferedImage up1, up2, down1, down2, left1, left2, right1, right2;
     public int direction;
@@ -23,9 +19,9 @@ public class Entity {
 
     HashMap<String, ArrayList<BufferedImage>> spriteAnimationCycles;
 
-    public Entity(int xPos, int yPos, int quickness, Sprite sprite) {
-        this.xPos = xPos;
-        this.yPos = yPos;
+    public Entity(int worldX, int worldY, int quickness, Sprite sprite) {
+        this.worldX = worldY;
+        this.worldY = worldY;
         this.quickness = quickness;
 
         setSprites(sprite);
@@ -105,6 +101,7 @@ public class Entity {
             default:
                 direction = -1;
                 return this.spriteAnimationCycles.get(animationCycleKey + "-Downward").get(0);
+
         }
 
     }

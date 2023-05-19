@@ -21,6 +21,12 @@ public class GamePanel extends JPanel implements Runnable {
     Player player = new Player(this, keyHandler, "player-spritesheet.png");
     TileManager tileManager;
 
+    // World Settings
+    public final int maxWorldCol = 50;
+    public final int maxWorldRow = 50;
+    public final int worldWidth = tileSize * maxWorldCol;
+    public final int worldHeight = tileSize * maxWorldRow;
+
     public GamePanel() {
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
         this.setBackground(Color.black);
