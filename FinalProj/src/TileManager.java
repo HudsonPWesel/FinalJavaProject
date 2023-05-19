@@ -89,61 +89,28 @@ public class TileManager {
     public void draw(Graphics2D g2d, String pathToTextfileMap) {
         String[][] map = getTextMapContent(pathToTextfileMap);
 
-        /*
-         * 
-         * for (int row = 0; row < currentRow + 1; row++)
-         * for (int col = 0; col < currentCol + 1; col++) {
-         * int drawTileRow = (int) (currentRow - CAMERA_HEIGHT / 2) + row;
-         * int drawTileCol = (int) (currentCol - CAMERA_WIDTH / 2) + col;
-         * 
-         * 
-         * // (distanceInTiles - drawTileRow) + (WindowWidth / 2)
-         * 
-         * g2d.drawImage(tiles.get(Integer.parseInt(map[row][col])).sprite, col *
-         * gamePanel.tileSize,
-         * row * gamePanel.tileSize,
-         * gamePanel.tileSize, gamePanel.tileSize, null);
-         * }
-         * 
-         */
-
         for (int row = 0; row < gamePanel.maxWorldRow; row++) {
             for (int col = 0; col < gamePanel.maxWorldCol; col++) {
 
                 int worldX = col * gamePanel.tileSize;
                 int worldY = row * gamePanel.tileSize;
-                // 0,0 | 16
 
-                int screenX = worldX - gamePanel.player.worldX;
-                int screenY = worldY - gamePanel.player.worldY;
-                // System.out.println(gamePanel.player.worldX);
+                int screenX = worldX - gamePanel.player.worldX + gamePanel.player.screenX;
+                int screenY = worldY - gamePanel.player.worldY + gamePanel.player.screenY;
 
-                // 0,0
+                boolean isInScreenBoundsX = worldX + gamePanel.tileSize > gamePanel.player.worldX
+                        - gamePanel.player.screenX
+                        && worldX - gamePanel.tileSize < gamePanel.player.worldX + gamePanel.player.screenX;
 
-                g2d.drawImage(tiles.get(Integer.parseInt(map[row][col])).sprite, screenX,
-                        screenY, gamePanel.tileSize, gamePanel.tileSize, null);
+                boolean isInScreenBoundsY = worldY + gamePanel.tileSize > gamePanel.player.worldY
+                        - gamePanel.player.screenY
+                        && worldY - gamePanel.tileSize < gamePanel.player.worldY + gamePanel.player.screenY;
+
+                if (isInScreenBoundsX && isInScreenBoundsY)
+                    g2d.drawImage(tiles.get(Integer.parseInt(map[row][col])).sprite, screenX,
+                            screenY, gamePanel.tileSize, gamePanel.tileSize, null);
             }
         }
-
-        // while (worldCol < gamePanel.maxWorldCol && worldRow < gamePanel.maxWorldRow)
-        // {
-        // BufferedImage tile =
-        // tiles.get(Integer.parseInt(map[worldRow][worldCol])).sprite;
-
-        // int worldX = worldCol * gamePanel.tileSize;
-        // int worldY = worldRow * gamePanel.tileSize;
-
-        // int screenX = worldX - gamePanel.player.worldX + gamePanel.player.worldX;
-        // int screenY = worldY - gamePanel.player.worldY + gamePanel.player.worldY;
-
-        // g2d.drawImage(tile, screenX,
-        // screenY, gamePanel.tileSize, gamePanel.tileSize, null);
-
-        // if (worldCol == gamePanel.maxWorldCol) {
-        // worldCol = 0;
-        // worldRow++;
-        // }
-        // }
 
     }
 }
