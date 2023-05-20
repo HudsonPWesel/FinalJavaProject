@@ -2,8 +2,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.io.File;
-import java.nio.file.Path;
 
 import javax.swing.JPanel;
 
@@ -18,11 +16,12 @@ public class GamePanel extends JPanel implements Runnable {
     public final int screenHeight = tileSize * maxScreenRow;
     public final int FPS = 60;
 
-    Thread gameThread;
-    KeyHandler keyHandler = new KeyHandler();
-    Player player = new Player(this, keyHandler, "player-spritesheet.png");
-    TileManager tileManager;
-    CollisionChecker collisionChecker = new CollisionChecker(this);
+    public Thread gameThread;
+    public KeyHandler keyHandler = new KeyHandler();
+    public Player player = new Player(this, keyHandler, "player-spritesheet.png");
+    public TileManager tileManager;
+    public CollisionChecker collisionChecker = new CollisionChecker(this);
+    public AssetPlacer assetPlacer = new AssetPlacer(this);
 
     // World Settings
     public final int maxWorldCol = 50;
@@ -37,6 +36,7 @@ public class GamePanel extends JPanel implements Runnable {
         this.addKeyListener(keyHandler);
         this.setFocusable(true);
         this.tileManager = new TileManager(this);
+
     }
 
     /**
