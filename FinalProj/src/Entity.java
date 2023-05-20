@@ -1,3 +1,4 @@
+import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -11,17 +12,20 @@ public class Entity {
     public BufferedImage up1, up2, down1, down2, left1, left2, right1, right2;
     public int direction;
 
-    public final int LEFT = 0;
-    public final int RIGHT = 1;
-    public final int UP = 2;
-    public final int DOWN = 3;
+    public static final int LEFT = 0;
+    public static final int RIGHT = 1;
+    public static final int UP = 2;
+    public static final int DOWN = 3;
     public int animationIndex = -1;
+    public Rectangle hitbox;
+    public boolean isCollided = false;
 
     HashMap<String, ArrayList<BufferedImage>> spriteAnimationCycles;
 
-    public Entity(int worldX, int worldY, int quickness, Sprite sprite) {
+    public Entity(int worldX, int worldY, int quickness, Rectangle hitbox, Sprite sprite) {
         this.worldX = worldY;
         this.worldY = worldY;
+        this.hitbox = hitbox;
         this.quickness = quickness;
 
         setSprites(sprite);

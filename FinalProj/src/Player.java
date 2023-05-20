@@ -1,4 +1,5 @@
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 
 public class Player extends Entity {
@@ -14,7 +15,8 @@ public class Player extends Entity {
     public Player(GamePanel gamePanel, KeyHandler keyHandler, String spriteSheetPath) {
         // Super must be the first line
         super(gamePanel.tileSize * 10,
-                gamePanel.tileSize * 10, 6, new Sprite(spriteSheetPath,
+                gamePanel.tileSize * 10, 6, new Rectangle(8, 16, gamePanel.tileSize, gamePanel.tileSize),
+                new Sprite(spriteSheetPath,
                         new int[] { 120, 130 },
                         new String[] { "Standing-Downward", "Standing-Left", "Standing-Upward", "Standing-Right",
                                 "Walking-Downward", "Walking-Left", "Walking-Upward", "Walking-Right" },
@@ -31,22 +33,46 @@ public class Player extends Entity {
 
     public void update() {
 
-        if (keyHandler.upPressed) {
-            worldY -= quickness;
-            direction = this.UP;
-        } else if (keyHandler.downPressed) {
-            worldY += quickness;
-            direction = this.DOWN;
+        if (keyHandler.upPressed)
+            direction = Entity.UP;
 
-        } else if (keyHandler.rightPressed) {
-            worldX += quickness;
-            direction = this.RIGHT;
+        else if (keyHandler.downPressed)
+            direction = Entity.DOWN;
 
-        } else if (keyHandler.leftPressed) {
-            worldX -= quickness;
-            direction = this.LEFT;
-        }
+        else if (keyHandler.rightPressed)
+            direction = Entity.RIGHT;
+
+        else if (keyHandler.leftPressed)
+            direction = Entity.LEFT;
+
+        // Check for collideable
+        isCollided = false;
+        gamePanel.collisionChecker.checkTile(this);
+
+        updateCameraPos();
         gamePanel.tileManager.updateMap(new int[] { worldX, worldY });
+    }
+
+    private void updateCameraPos() {
+        if (!isCollided) {
+            switch (direction) {
+                case Entity.UP:
+                    worldY -= quickness;
+                    break;
+                case Entity.DOWN:
+                    worldY += quickness;
+                    break;
+                case Entity.RIGHT:
+                    worldX += quickness;
+                    break;
+                case Entity.LEFT:
+                    worldX -= quickness;
+                    break;
+
+                default:
+                    break;
+            }
+        }
     }
 
     /**

@@ -1,5 +1,4 @@
 import java.awt.Graphics2D;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -38,9 +37,14 @@ public class TileManager {
 
         for (String fileName : contents) {
             try {
+                String tileName = fileName.substring(0, fileName.indexOf("."));
+                boolean isCollision = setCollisionTile(filterTileName(tileName));
 
-                tiles.add(new Tile(ImageIO.read(PathFinder.getFilePathForFile(fileName).toFile()),
-                        fileName.substring(0, fileName.indexOf("."))));
+                Tile currentTile = new Tile(ImageIO.read(PathFinder.getFilePathForFile(fileName).toFile()),
+                        tileName, isCollision);
+
+                tiles.add(currentTile);
+
             } catch (IOException e) {
                 // TODO Auto-generated catch block
                 System.out.println("Failed to find FilePathForFile: " + fileName);
@@ -49,6 +53,35 @@ public class TileManager {
             }
         }
 
+    }
+
+    private String filterTileName(String tileName) {
+        String templateTileName = "";
+        for (int i = 0; i < tileName.length(); i++) {
+            try {
+                Integer.parseInt(tileName.charAt(i) + "");
+            } catch (Exception e) {
+                templateTileName += tileName.charAt(i) + "";
+                // TODO: handle exception
+            }
+        }
+        return templateTileName;
+    }
+
+    private boolean setCollisionTile(String fileName) {
+        switch (fileName) {
+            case "wall":
+                return true;
+            case "hut":
+                return true;
+            case "water":
+                return true;
+            case "tree":
+                return true;
+
+            default:
+                return false;
+        }
     }
 
     private String[][] getTextMapContent(String filePath) {
