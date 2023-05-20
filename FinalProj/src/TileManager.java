@@ -4,12 +4,15 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Scanner;
 import javax.imageio.ImageIO;
 
 public class TileManager {
     GamePanel gamePanel;
-    ArrayList<Tile> tiles = new ArrayList<Tile>();
+    HashMap<Integer, Tile> tiles = new HashMap<Integer, Tile>();
 
     public int currentRow = 0;
     public int currentCol = 0;
@@ -38,12 +41,12 @@ public class TileManager {
         for (String fileName : contents) {
             try {
                 String tileName = fileName.substring(0, fileName.indexOf("."));
-                boolean isCollision = setCollisionTile(filterTileName(tileName));
+                boolean isCollision = setCollisionTile((tileName));
 
                 Tile currentTile = new Tile(ImageIO.read(PathFinder.getFilePathForFile(fileName).toFile()),
                         tileName, isCollision);
 
-                tiles.add(currentTile);
+                tiles.put(getTileKey(tileName), currentTile);
 
             } catch (IOException e) {
                 // TODO Auto-generated catch block
@@ -52,20 +55,48 @@ public class TileManager {
 
             }
         }
-
     }
 
-    private String filterTileName(String tileName) {
-        String templateTileName = "";
-        for (int i = 0; i < tileName.length(); i++) {
-            try {
-                Integer.parseInt(tileName.charAt(i) + "");
-            } catch (Exception e) {
-                templateTileName += tileName.charAt(i) + "";
-                // TODO: handle exception
-            }
+    private int getTileKey(String tileName) {
+
+        switch (tileName) {
+            case "grass":
+                return 0;
+            case "wall":
+                return 1;
+            case "water":
+                return 2;
+            case "earth":
+                return 3;
+            case "tree":
+                return 4;
+            case "road":
+                return 5;
+            case "hut":
+                return 6;
+            case "table":
+                return 7;
+            case "floor":
+                return 8;
+            default:
+                return -1;
         }
-        return templateTileName;
+    }
+
+    /**
+     * Gets the ID of tile, returns null if no ID found
+     * 
+     * @param tileName tile name
+     * @return ID of tile
+     */
+    private String getTileID(String tileName) {
+        try {
+            return Integer.parseInt(tileName.substring(tileName.indexOf(".") - 2, tileName.indexOf("."))) + "";
+
+        } catch (Exception e) {
+            return null;
+            // TODO: handle exception
+        }
     }
 
     private boolean setCollisionTile(String fileName) {
@@ -85,7 +116,6 @@ public class TileManager {
     }
 
     private String[][] getTextMapContent(String filePath) {
-
         Scanner scan = null;
         try {
             scan = new Scanner(new FileReader(filePath));
@@ -139,9 +169,12 @@ public class TileManager {
                         - gamePanel.player.screenY
                         && worldY - gamePanel.tileSize < gamePanel.player.worldY + gamePanel.player.screenY;
 
-                if (isInScreenBoundsX && isInScreenBoundsY)
-                    g2d.drawImage(tiles.get(Integer.parseInt(map[row][col])).sprite, screenX,
+                if (isInScreenBoundsX && isInScreenBoundsY) {
+                    int numTileInMap = Integer.parseInt(map[row][col]);
+
+                    g2d.drawImage(tiles.get(numTileInMap).sprite, screenX,
                             screenY, gamePanel.tileSize, gamePanel.tileSize, null);
+                }
             }
         }
 

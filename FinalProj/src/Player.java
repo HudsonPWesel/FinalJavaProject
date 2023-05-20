@@ -14,8 +14,8 @@ public class Player extends Entity {
 
     public Player(GamePanel gamePanel, KeyHandler keyHandler, String spriteSheetPath) {
         // Super must be the first line
-        super(gamePanel.tileSize * 10,
-                gamePanel.tileSize * 10, 6, new Rectangle(8, 16, gamePanel.tileSize, gamePanel.tileSize),
+        super(gamePanel.tileSize * 21,
+                gamePanel.tileSize * 23, 4, new Rectangle(4, 8, 6, 4),
                 new Sprite(spriteSheetPath,
                         new int[] { 120, 130 },
                         new String[] { "Standing-Downward", "Standing-Left", "Standing-Upward", "Standing-Right",
