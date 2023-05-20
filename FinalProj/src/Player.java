@@ -54,7 +54,9 @@ public class Player extends Entity {
     }
 
     private void updateCameraPos() {
-        if (!isCollided) {
+        boolean isStandingStill = !keyHandler.upPressed && !keyHandler.downPressed && !keyHandler.leftPressed
+                && !keyHandler.rightPressed;
+        if (!isCollided && !isStandingStill) {
             switch (direction) {
                 case Entity.UP:
                     worldY -= quickness;
