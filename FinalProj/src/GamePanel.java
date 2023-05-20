@@ -2,6 +2,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.io.File;
+import java.nio.file.Path;
 
 import javax.swing.JPanel;
 
@@ -43,6 +45,7 @@ public class GamePanel extends JPanel implements Runnable {
     public void startGameThread() {
         gameThread = new Thread(this);
         gameThread.start();
+        SoundManager.playSound(PathFinder.getFilePathForFile("background.wav").toFile());
 
     }
 
