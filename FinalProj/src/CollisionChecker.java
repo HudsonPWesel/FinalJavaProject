@@ -36,11 +36,6 @@ public class CollisionChecker {
 
                 tileNum1 = Integer.parseInt(gamePanel.tileManager.map[entityTopRow][entityLeftCol]);
                 tileNum2 = Integer.parseInt(gamePanel.tileManager.map[entityTopRow][entityRightCol]);
-                System.out.println(entityTopRow);
-                System.out.println(entityLeftCol);
-
-                System.out.println(gamePanel.tileManager.tiles.get(tileNum1));
-                System.out.println(gamePanel.tileManager.tiles.get(tileNum2));
 
                 if (gamePanel.tileManager.tiles.get(tileNum1).doesCollide
                         || gamePanel.tileManager.tiles.get(tileNum2).doesCollide)
@@ -48,16 +43,39 @@ public class CollisionChecker {
 
                 break;
             case Entity.DOWN:
+                entityBottomRow = (entityBottomY - entity.quickness) / gamePanel.tileSize;
+                tileNum1 = Integer.parseInt(gamePanel.tileManager.map[entityBottomRow][entityLeftCol]);
+                tileNum2 = Integer.parseInt(gamePanel.tileManager.map[entityBottomRow][entityRightCol]);
+                if (gamePanel.tileManager.tiles.get(tileNum1).doesCollide
+                        || gamePanel.tileManager.tiles.get(tileNum2).doesCollide)
+                    entity.isCollided = true;
                 break;
 
             case Entity.LEFT:
+
+                entityLeftCol = (entityLeftX - entity.quickness) / gamePanel.tileSize;
+                tileNum1 = Integer.parseInt(gamePanel.tileManager.map[entityTopRow][entityLeftCol]);
+                tileNum2 = Integer.parseInt(gamePanel.tileManager.map[entityBottomRow][entityLeftCol]);
+
+                if (gamePanel.tileManager.tiles.get(tileNum1).doesCollide
+                        || gamePanel.tileManager.tiles.get(tileNum2).doesCollide)
+                    entity.isCollided = true;
                 break;
 
             case Entity.RIGHT:
+
+                entityLeftCol = (entityRightX - entity.quickness) / gamePanel.tileSize;
+                tileNum1 = Integer.parseInt(gamePanel.tileManager.map[entityTopRow][entityRightCol]);
+                tileNum2 = Integer.parseInt(gamePanel.tileManager.map[entityBottomRow][entityRightCol]);
+
+                if (gamePanel.tileManager.tiles.get(tileNum1).doesCollide
+                        || gamePanel.tileManager.tiles.get(tileNum2).doesCollide)
+                    entity.isCollided = true;
                 break;
 
             default:
                 break;
         }
+
     }
 }
