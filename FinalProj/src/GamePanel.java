@@ -106,8 +106,19 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     private void drawHearts(Graphics2D g2d) {
+        int[] healthIndicies = new int[3];
+        int numFullHearts = player.health / 2;
+        int remainder = player.health % 2;
+
+        // Init num of full hearts
+        for (int i = 0; i < (numFullHearts); i++)
+            healthIndicies[i] = 2;
+
+        for (int i = numFullHearts; i < numFullHearts + remainder; i++)
+            healthIndicies[i] = 1;
+
         for (int i = 0; i < player.hearts.size(); i++) {
-            g2d.drawImage(player.hearts.get(2), 15 + (i * 35), 15, tileSize / 2, tileSize / 2, null);
+            g2d.drawImage(player.hearts.get(healthIndicies[i]), 15 + (i * 35), 15, tileSize / 2, tileSize / 2, null);
 
         }
     }

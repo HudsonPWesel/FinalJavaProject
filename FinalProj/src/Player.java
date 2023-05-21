@@ -18,6 +18,7 @@ public class Player extends Entity {
     public final int screenY;
 
     public ArrayList<BufferedImage> hearts = new ArrayList<BufferedImage>();
+    public int health = 6;
 
     public Player(GamePanel gamePanel, KeyHandler keyHandler, String spriteSheetPath) {
         // Super must be the first line
