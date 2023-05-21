@@ -40,11 +40,12 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     /**
-     * Starts the game clock
+     * Starts the game clock and sound
      */
     public void startGameThread() {
         gameThread = new Thread(this);
         gameThread.start();
+
         // SoundManager.playSound(PathFinder.getFilePathForFile("background.wav").toFile());
 
     }
@@ -84,6 +85,9 @@ public class GamePanel extends JPanel implements Runnable {
 
     }
 
+    /**
+     * Draws map and player
+     */
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -93,6 +97,11 @@ public class GamePanel extends JPanel implements Runnable {
         tileManager.draw(g2d, PathFinder.getFilePathForFile("map.txt").toAbsolutePath().toString());
         player.draw(g2d);
 
+        InteractableObject chest = new InteractableObject(
+                new Sprite("chests", new int[] { 120, 130 }, new String[] { "Chest-Opening" }, new int[] { 2 }),
+                "Chest", tileSize * 21,
+                tileSize * 23);
+        chest.draw((Graphics2D) g, this, "Chest-Opening");
         g2d.dispose();
     }
 }

@@ -1,6 +1,9 @@
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import javax.imageio.ImageIO;
 
 public class Sprite {
     public String spritesheetFileName;
@@ -25,13 +28,75 @@ public class Sprite {
         this.height = dimensions[1];
         this.animationCycleRowNames = animationCycleRowNames;
         this.spriteColumnSequence = spriteColumnSequence;
+        setSprites();
+
     }
 
+    private BufferedImage initSpriteSheet(String spriteSheetPath) {
+        // ImageIO.read(PathFinder(sprites[i]).toFile());
+        try {
+            return ImageIO.read(
+                    PathFinder.getFilePathForFile(spriteSheetPath).toFile());
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new Error("SpriteSheet Not Found!");
+        }
+
+    }
+
+    private HashMap<String, ArrayList<BufferedImage>> initAnimationCycles(BufferedImage spriteSheet) {
+
+        HashMap<String, ArrayList<BufferedImage>> currentAnimationCycles = new HashMap<String, ArrayList<BufferedImage>>();
+
+        int numRows = animationCycleRowNames.length;
+
+        for (int row = 0; row < numRows; row++) {
+
+            currentAnimationCycles.put(animationCycleRowNames[row], new ArrayList<BufferedImage>());
+
+            for (int col = 0; col < spriteColumnSequence[row]; col++) {
+                int spriteXPos = col * width;
+                int spriteYPos = row * height;
+                // 120,130
+                //
+                currentAnimationCycles.get(animationCycleRowNames[row]).add(spriteSheet.getSubimage((spriteXPos),
+                        (spriteYPos), width, height));
+                // Doesn't account for blanks
+            }
+        }
+
+        return currentAnimationCycles;
+    }
+
+    private void setSprites() {
+
+        // Intilize Sprite Sheet Image
+        BufferedImage spriteSheetImage = initSpriteSheet(spritesheetFileName);
+
+        // Get All Sprites and add them to a corrosponding HashMap(Row,
+        // ArrayList<Sprites Associated w/ Animation> )
+        spriteAnimationCycles = initAnimationCycles(spriteSheetImage);
+
+    }
+
+    /**
+     * Gets sprite for animation, but only in one direction, used for interacables
+     * 
+     * @param animationCycleKey
+     * @return
+     */
     public BufferedImage getAnimationSprite(String animationCycleKey) {
         return spriteAnimationCycles.get(animationCycleKey).get(animationIndex);
 
     }
 
+    /**
+     * Used for getting the player animation sprite as it can face any direction
+     * 
+     * @param animationCycleKey
+     * @param direction
+     * @return
+     */
     public BufferedImage getAnimationSprite(String animationCycleKey, int direction) {
         switch (direction) {
             case Entity.UP:

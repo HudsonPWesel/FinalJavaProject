@@ -26,55 +26,7 @@ public class Entity {
         this.hitbox = hitbox;
         this.quickness = quickness;
         this.sprite = sprite;
-        setSprites(sprite);
-    }
 
-    private void setSprites(Sprite sprite) {
-
-        // Intilize Sprite Sheet Image
-        BufferedImage spriteSheetImage = initSpriteSheet(sprite.spritesheetFileName);
-
-        // Get All Sprites and add them to a corrosponding HashMap(Row,
-        // ArrayList<Sprites Associated w/ Animation> )
-        sprite.spriteAnimationCycles = initAnimationCycles(spriteSheetImage, sprite);
-
-    }
-
-    private BufferedImage initSpriteSheet(String spriteSheetPath) {
-        // ImageIO.read(PathFinder(sprites[i]).toFile());
-        try {
-            return ImageIO.read(
-                    PathFinder.getFilePathForFile(spriteSheetPath).toFile());
-        } catch (IOException e) {
-            e.printStackTrace();
-            throw new Error("SpriteSheet Not Found!");
-        }
-
-    }
-
-    private HashMap<String, ArrayList<BufferedImage>> initAnimationCycles(BufferedImage spriteSheet,
-            Sprite sprite) {
-
-        HashMap<String, ArrayList<BufferedImage>> currentAnimationCycles = new HashMap<String, ArrayList<BufferedImage>>();
-
-        int numRows = sprite.animationCycleRowNames.length;
-
-        for (int row = 0; row < numRows; row++) {
-
-            currentAnimationCycles.put(sprite.animationCycleRowNames[row], new ArrayList<BufferedImage>());
-
-            for (int col = 0; col < sprite.spriteColumnSequence[row]; col++) {
-                int spriteXPos = col * sprite.width;
-                int spriteYPos = row * sprite.height;
-                // 120,130
-                //
-                currentAnimationCycles.get(sprite.animationCycleRowNames[row]).add(spriteSheet.getSubimage((spriteXPos),
-                        (spriteYPos), sprite.width, sprite.height));
-                // Doesn't account for blanks
-            }
-        }
-
-        return currentAnimationCycles;
     }
 
     /**
