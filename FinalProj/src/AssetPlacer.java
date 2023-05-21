@@ -6,7 +6,9 @@ public class AssetPlacer {
 
     public AssetPlacer(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
-        this.interactables = new ArrayList<>();
+        interactables = new ArrayList<>();
         // Just want to draw it on the screen and use collisoin to interact
+
     }
+
 }

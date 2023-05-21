@@ -1,3 +1,5 @@
+import java.awt.image.BufferedImage;
+
 public class Sprite {
     public String spritesheetFileName;
     public int width;
@@ -5,6 +7,13 @@ public class Sprite {
     public String[] animationCycleRowNames;
     public int[] spriteColumnSequence;
 
+    /**
+     * 
+     * @param spritesheetFileName    fileName
+     * @param dimensions             widthxheight of sprite
+     * @param animationCycleRowNames name
+     * @param spriteColumnSequence
+     */
     public Sprite(String spritesheetFileName, int[] dimensions, String[] animationCycleRowNames,
             int[] spriteColumnSequence) {
         this.spritesheetFileName = spritesheetFileName;
@@ -13,5 +22,9 @@ public class Sprite {
         this.animationCycleRowNames = animationCycleRowNames;
         this.spriteColumnSequence = spriteColumnSequence;
     }
+
+    // public BufferedImage getSprite() {
+
+    // }
 
 }

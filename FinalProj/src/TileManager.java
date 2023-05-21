@@ -16,8 +16,6 @@ public class TileManager {
 
     public int currentRow = 0;
     public int currentCol = 0;
-    public final int CAMERA_WIDTH = 5;
-    public final int CAMERA_HEIGHT = 5;
 
     public String[][] map;
 
