@@ -79,22 +79,6 @@ public class TileManager {
         }
     }
 
-    /**
-     * Gets the ID of tile, returns null if no ID found
-     * 
-     * @param tileName tile name
-     * @return ID of tile
-     */
-    private String getTileID(String tileName) {
-        try {
-            return Integer.parseInt(tileName.substring(tileName.indexOf(".") - 2, tileName.indexOf("."))) + "";
-
-        } catch (Exception e) {
-            return null;
-            // TODO: handle exception
-        }
-    }
-
     private boolean setCollisionTile(String fileName) {
         switch (fileName) {
             case "wall":

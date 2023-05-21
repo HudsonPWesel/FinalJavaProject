@@ -68,6 +68,14 @@ public class Sprite {
         return currentAnimationCycles;
     }
 
+    /**
+     * Returns the specific sprite needed for the current frame
+     * 
+     * @param animationCycleKey should be the left side of the - (Walking,
+     *                          Standing,etc.)
+     * @return
+     */
+
     private void setSprites() {
 
         // Intilize Sprite Sheet Image

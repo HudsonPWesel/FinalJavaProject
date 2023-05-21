@@ -21,7 +21,6 @@ public class GamePanel extends JPanel implements Runnable {
     public Player player = new Player(this, keyHandler, "player-spritesheet.png");
     public TileManager tileManager;
     public CollisionChecker collisionChecker = new CollisionChecker(this);
-    public AssetPlacer assetPlacer = new AssetPlacer(this);
 
     // World Settings
     public final int maxWorldCol = 50;
