@@ -1,6 +1,11 @@
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+
+import javax.imageio.ImageIO;
 
 public class Player extends Entity {
 
@@ -11,6 +16,8 @@ public class Player extends Entity {
     // Where to place character
     public final int screenX;
     public final int screenY;
+
+    public ArrayList<BufferedImage> hearts = new ArrayList<BufferedImage>();
 
     public Player(GamePanel gamePanel, KeyHandler keyHandler, String spriteSheetPath) {
         // Super must be the first line
@@ -28,6 +35,25 @@ public class Player extends Entity {
 
         screenX = gamePanel.screenWidth / 2 - (gamePanel.tileSize / 2);
         screenY = gamePanel.screenHeight / 2 - (gamePanel.tileSize / 2);
+
+        initHearts();
+
+    }
+
+    private void initHearts() {
+        ArrayList<String> hearts_files = new ArrayList<String>(
+                Arrays.asList(new String[] { "heart_blank", "heart_half", "heart_full" }));
+
+        for (String heartPath : hearts_files) {
+            try {
+                hearts.add(ImageIO.read(
+                        PathFinder.getFilePathForFile(heartPath).toFile()));
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+
+        }
 
     }
 

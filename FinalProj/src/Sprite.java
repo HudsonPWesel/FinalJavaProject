@@ -12,6 +12,7 @@ public class Sprite {
     public String[] animationCycleRowNames;
     public int[] spriteColumnSequence;
     HashMap<String, ArrayList<BufferedImage>> spriteAnimationCycles;
+    public ArrayList<String> imageNames = new ArrayList<>();
     public int animationIndex = -1;
 
     /**
@@ -32,11 +33,35 @@ public class Sprite {
 
     }
 
+    public Sprite(ArrayList<String> imageNames, int[] dimensions) {
+        this.imageNames = imageNames;
+        this.width = dimensions[0];
+        this.height = dimensions[1];
+        setSprites();
+
+    }
+
     private BufferedImage initSpriteSheet(String spriteSheetPath) {
         // ImageIO.read(PathFinder(sprites[i]).toFile());
         try {
             return ImageIO.read(
                     PathFinder.getFilePathForFile(spriteSheetPath).toFile());
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new Error("SpriteSheet Not Found!");
+        }
+
+    }
+
+    private void initSpriteSheet() {
+        // ImageIO.read(PathFinder(sprites[i]).toFile());
+        ArrayList<BufferedImage> sprites = new ArrayList<BufferedImage>();
+        try {
+            for (String string : imageNames) {
+
+                sprites.add(ImageIO.read(
+                        PathFinder.getFilePathForFile(string).toFile()));
+            }
         } catch (IOException e) {
             e.printStackTrace();
             throw new Error("SpriteSheet Not Found!");

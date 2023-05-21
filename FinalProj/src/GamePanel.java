@@ -101,6 +101,14 @@ public class GamePanel extends JPanel implements Runnable {
                 "Chest", tileSize * 21,
                 tileSize * 23);
         chest.draw((Graphics2D) g, this, "Chest-Opening");
+        drawHearts(g2d);
         g2d.dispose();
+    }
+
+    private void drawHearts(Graphics2D g2d) {
+        for (int i = 0; i < player.hearts.size(); i++) {
+            g2d.drawImage(player.hearts.get(2), 15 + (i * 35), 15, tileSize / 2, tileSize / 2, null);
+
+        }
     }
 }
