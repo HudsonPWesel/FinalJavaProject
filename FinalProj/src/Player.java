@@ -90,7 +90,8 @@ public class Player extends Entity {
         boolean isStandingStill = !keyHandler.upPressed && !keyHandler.downPressed && !keyHandler.leftPressed
                 && !keyHandler.rightPressed;
 
-        displaySprite = isStandingStill ? getAnimationSprite("Standing") : getAnimationSprite("Walking");
+        displaySprite = isStandingStill ? sprite.getAnimationSprite("Standing", direction)
+                : sprite.getAnimationSprite("Walking", direction);
 
         g2d.drawImage(displaySprite, screenX, screenY, gamePanel.tileSize, gamePanel.tileSize, null);
 

@@ -16,18 +16,16 @@ public class Entity {
     public static final int RIGHT = 1;
     public static final int UP = 2;
     public static final int DOWN = 3;
-    public int animationIndex = -1;
     public Rectangle hitbox;
     public boolean isCollided = false;
-
-    HashMap<String, ArrayList<BufferedImage>> spriteAnimationCycles;
+    public Sprite sprite;
 
     public Entity(int worldX, int worldY, int quickness, Rectangle hitbox, Sprite sprite) {
         this.worldX = worldY;
         this.worldY = worldY;
         this.hitbox = hitbox;
         this.quickness = quickness;
-
+        this.sprite = sprite;
         setSprites(sprite);
     }
 
@@ -38,7 +36,7 @@ public class Entity {
 
         // Get All Sprites and add them to a corrosponding HashMap(Row,
         // ArrayList<Sprites Associated w/ Animation> )
-        this.spriteAnimationCycles = initAnimationCycles(spriteSheetImage, sprite);
+        sprite.spriteAnimationCycles = initAnimationCycles(spriteSheetImage, sprite);
 
     }
 
@@ -90,35 +88,23 @@ public class Entity {
     public BufferedImage getAnimationSprite(String animationCycleKey) {
         switch (direction) {
             case UP:
-                updateAnimationIndex(animationCycleKey + "-Upward");
-                return this.spriteAnimationCycles.get(animationCycleKey + "-Upward").get(animationIndex);
+                sprite.updateAnimationIndex(animationCycleKey + "-Upward");
+                return sprite.spriteAnimationCycles.get(animationCycleKey + "-Upward").get(sprite.animationIndex);
             case DOWN:
-                updateAnimationIndex(animationCycleKey + "-Downward");
-                return this.spriteAnimationCycles.get(animationCycleKey + "-Downward").get(animationIndex);
+                sprite.updateAnimationIndex(animationCycleKey + "-Downward");
+                return sprite.spriteAnimationCycles.get(animationCycleKey + "-Downward").get(sprite.animationIndex);
             case LEFT:
-                updateAnimationIndex(animationCycleKey + "-Left");
-                return this.spriteAnimationCycles.get(animationCycleKey + "-Left").get(animationIndex);
+                sprite.updateAnimationIndex(animationCycleKey + "-Left");
+                return sprite.spriteAnimationCycles.get(animationCycleKey + "-Left").get(sprite.animationIndex);
             case RIGHT:
-                updateAnimationIndex(animationCycleKey + "-Right");
-                return this.spriteAnimationCycles.get(animationCycleKey + "-Right").get(animationIndex);
+                sprite.updateAnimationIndex(animationCycleKey + "-Right");
+                return sprite.spriteAnimationCycles.get(animationCycleKey + "-Right").get(sprite.animationIndex);
 
             default:
                 direction = -1;
-                return this.spriteAnimationCycles.get(animationCycleKey + "-Downward").get(0);
+                return sprite.spriteAnimationCycles.get(animationCycleKey + "-Downward").get(0);
 
         }
-
-    }
-
-    public void updateAnimationIndex(String animationCycleRowName) {
-        boolean isNewDirection = animationIndex != 0;
-        boolean shouldRepeatAnimation = animationIndex == spriteAnimationCycles.get(animationCycleRowName).size() - 1;
-        if (isNewDirection)
-            animationIndex = 0;
-        else if (!isNewDirection && shouldRepeatAnimation)
-            animationIndex = 0;
-        else
-            animationIndex++;
 
     }
 
