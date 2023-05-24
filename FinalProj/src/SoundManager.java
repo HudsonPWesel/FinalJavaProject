@@ -8,7 +8,7 @@ import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
 public class SoundManager {
-    public static void playSound(File file) {
+    public static Clip playSound(File file) {
         File f = file;
         AudioInputStream audioIn = null;
         try {
@@ -26,10 +26,12 @@ public class SoundManager {
         }
         try {
             clip.open(audioIn);
+            return clip;
         } catch (LineUnavailableException | IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
         clip.start();
+        return null;
     }
 }

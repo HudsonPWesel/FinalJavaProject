@@ -30,7 +30,7 @@ public class TileManager {
 
     private void setTileSprites() {
 
-        File directoryPath = new File("./Sprites/Background-Tiles");
+        File directoryPath = new File("./FinalProj/Sprites/Background-Tiles");
 
         String contents[] = directoryPath.list();
 
@@ -79,6 +79,13 @@ public class TileManager {
         }
     }
 
+    /**
+     * Sets if a specific tile (tree, hut, etc) is
+     * 
+     * @param fileName path to tile sprite.png
+     * @return isCollidable
+     */
+
     private boolean setCollisionTile(String fileName) {
         switch (fileName) {
             case "wall":
@@ -95,6 +102,11 @@ public class TileManager {
         }
     }
 
+    /**
+     * 
+     * @param filePath path to map.txt file
+     * @return 2D array of map.txt content
+     */
     private String[][] getTextMapContent(String filePath) {
         Scanner scan = null;
         try {
@@ -128,6 +140,13 @@ public class TileManager {
         currentCol = position[1] / gamePanel.tileSize;
 
     }
+
+    /**
+     * Draws map based on map.txt file
+     * 
+     * @param g2d               tool to draw all tiles on map
+     * @param pathToTextfileMap path to map file.txt
+     */
 
     public void draw(Graphics2D g2d, String pathToTextfileMap) {
         String[][] map = getTextMapContent(pathToTextfileMap);

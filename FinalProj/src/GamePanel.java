@@ -3,6 +3,7 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 
+import javax.sound.sampled.Clip;
 import javax.swing.JPanel;
 
 public class GamePanel extends JPanel implements Runnable {
@@ -15,6 +16,8 @@ public class GamePanel extends JPanel implements Runnable {
     public final int screenWidth = tileSize * maxScreenCol;
     public final int screenHeight = tileSize * maxScreenRow;
     public final int FPS = 60;
+    public boolean isPlayingBossTheme = false;
+    public boolean isPlayingSoundEffect = false;
 
     public Thread gameThread;
     public KeyHandler keyHandler = new KeyHandler();
@@ -29,6 +32,10 @@ public class GamePanel extends JPanel implements Runnable {
     public final int worldWidth = tileSize * maxWorldCol;
     public final int worldHeight = tileSize * maxWorldRow;
 
+    public boolean isBattlingBoss = false;
+    public Clip amongUsClip;
+    public Clip bossMusic;
+
     public GamePanel() {
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
         this.setBackground(Color.black);
@@ -37,8 +44,8 @@ public class GamePanel extends JPanel implements Runnable {
         this.setFocusable(true);
         this.tileManager = new TileManager(this);
 
-        amongUs = new InteractableObject(Sprite.initSprite("amongus"), "amongus", tileSize * 21,
-                tileSize * 20);
+        amongUs = new InteractableObject(Sprite.initSprite("amongus"), "amongus", tileSize * 37,
+                tileSize * 8);
     }
 
     /**
@@ -109,13 +116,43 @@ public class GamePanel extends JPanel implements Runnable {
 
         drawHearts(g2d);
         g2d.dispose();
+
     }
 
     public int checkForDamage() {
-        if (Math.abs(amongUs.worldX - player.screenX) < 30 && Math.abs(amongUs.worldY - player.screenY) < 30)
-            System.out.println();
-
+        initBossBattle();
         return -1;
+
+    }
+
+    private void initBossBattle() {
+        if (Math.abs(amongUs.worldX - player.worldX) < 300 && Math.abs(amongUs.worldY - player.worldY) < 280) {
+            isBattlingBoss = true;
+            if (!isPlayingBossTheme && !isPlayingSoundEffect) {
+                amongUsClip = SoundManager.playSound(PathFinder.getFilePathForFile("amongusEffect.wav").toFile());
+                bossMusic = SoundManager.playSound(PathFinder.getFilePathForFile("bosstheme.wav").toFile());
+
+                amongUsClip.start();
+                bossMusic.start();
+
+                isPlayingBossTheme = true;
+                isPlayingSoundEffect = true;
+
+            } else if (Math.abs(amongUs.worldX - player.worldX) < 80
+                    && Math.abs(amongUs.worldY - player.worldY) < 100 && player.keyHandler.attackPressed) {
+                System.out.println("AMONGUS");
+                // Check if player is damaging boss
+
+            }
+
+        } else {
+            System.out.println(Math.abs(amongUs.worldX - player.worldX));
+            System.out.println(Math.abs(amongUs.worldY - player.worldY));
+            isPlayingBossTheme = false;
+            isPlayingSoundEffect = false;
+            if (bossMusic != null)
+                bossMusic.stop();
+        }
 
     }
 

@@ -23,7 +23,7 @@ public class Player extends Entity {
     public Player(GamePanel gamePanel, KeyHandler keyHandler, String spriteSheetPath) {
         // Super must be the first line
         super(gamePanel.tileSize * 21,
-                gamePanel.tileSize * 23, 5, new Rectangle(15, 15, 14, 24),
+                gamePanel.tileSize * 23, 7, new Rectangle(15, 15, 14, 24),
                 new Sprite(spriteSheetPath,
                         new int[] { 120, 130 },
                         new String[] { "Standing-Downward", "Standing-Left", "Standing-Upward", "Standing-Right",
@@ -58,6 +58,10 @@ public class Player extends Entity {
 
     }
 
+    /**
+     * update properties of player
+     */
+
     public void update() {
 
         if (keyHandler.upPressed)
@@ -81,6 +85,9 @@ public class Player extends Entity {
         gamePanel.tileManager.updateMap(new int[] { worldX, worldY });
     }
 
+    /**
+     * Updates the screen pos based on player quickness
+     */
     private void updateCameraPos() {
         boolean isStandingStill = !keyHandler.upPressed && !keyHandler.downPressed && !keyHandler.leftPressed
                 && !keyHandler.rightPressed;
@@ -118,6 +125,7 @@ public class Player extends Entity {
         boolean isStandingStill = !keyHandler.upPressed && !keyHandler.downPressed && !keyHandler.leftPressed
                 && !keyHandler.rightPressed;
 
+        // Set either standing or walking sprite
         displaySprite = isStandingStill ? sprite.getAnimationSprite("Standing", direction)
                 : sprite.getAnimationSprite("Walking", direction);
 

@@ -7,6 +7,7 @@ public class InteractableObject {
     public boolean isCollided = false;
     public int worldX, worldY;
     public BufferedImage singleSprite;
+    public boolean isAlive;
 
     public InteractableObject(Sprite sprite, String name, int worldX, int worldY) {
         this.sprite = sprite;
@@ -60,7 +61,7 @@ public class InteractableObject {
         if (isInScreenBoundsX && isInScreenBoundsY) {
 
             g2d.drawImage(singleSprite, screenX,
-                    screenY, gamePanel.tileSize, gamePanel.tileSize, null);
+                    screenY, gamePanel.tileSize * 2, gamePanel.tileSize * 2, null);
         }
     }
 
