@@ -75,6 +75,7 @@ public class Player extends Entity {
         // Check for collideable
         isCollided = false;
         gamePanel.collisionChecker.checkTile(this);
+        gamePanel.checkForDamage();
 
         updateCameraPos();
         gamePanel.tileManager.updateMap(new int[] { worldX, worldY });

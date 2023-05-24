@@ -21,6 +21,7 @@ public class GamePanel extends JPanel implements Runnable {
     public Player player = new Player(this, keyHandler, "player-spritesheet.png");
     public TileManager tileManager;
     public CollisionChecker collisionChecker = new CollisionChecker(this);
+    public InteractableObject amongUs;
 
     // World Settings
     public final int maxWorldCol = 50;
@@ -36,6 +37,8 @@ public class GamePanel extends JPanel implements Runnable {
         this.setFocusable(true);
         this.tileManager = new TileManager(this);
 
+        amongUs = new InteractableObject(Sprite.initSprite("amongus"), "amongus", tileSize * 21,
+                tileSize * 20);
     }
 
     /**
@@ -102,13 +105,18 @@ public class GamePanel extends JPanel implements Runnable {
                 tileSize * 23);
         chest.draw((Graphics2D) g, this, "Chest-Opening");
 
-        InteractableObject amongUs = new InteractableObject(Sprite.initSprite("amongus"), "amongus", tileSize * 21,
-                tileSize * 20);
-
         amongUs.draw((Graphics2D) g, this);
 
         drawHearts(g2d);
         g2d.dispose();
+    }
+
+    public int checkForDamage() {
+        if (Math.abs(amongUs.worldX - player.screenX) < 30 && Math.abs(amongUs.worldY - player.screenY) < 30)
+            System.out.println();
+
+        return -1;
+
     }
 
     private void drawHearts(Graphics2D g2d) {
