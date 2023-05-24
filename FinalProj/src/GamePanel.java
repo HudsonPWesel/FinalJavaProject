@@ -50,7 +50,7 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     /**
-     * Core game loop of game
+     * Core delta game loop of game
      */
     @Override
     public void run() {
@@ -101,6 +101,12 @@ public class GamePanel extends JPanel implements Runnable {
                 "Chest", tileSize * 21,
                 tileSize * 23);
         chest.draw((Graphics2D) g, this, "Chest-Opening");
+
+        InteractableObject amongUs = new InteractableObject(Sprite.initSprite("amongus"), "amongus", tileSize * 21,
+                tileSize * 20);
+
+        amongUs.draw((Graphics2D) g, this);
+
         drawHearts(g2d);
         g2d.dispose();
     }

@@ -9,9 +9,10 @@ public class CollisionChecker {
     /**
      * Main collision detection system
      * 
-     * @param entity
+     * @param entity entity to check for collision
      */
     public void checkTile(Entity entity) {
+        // Based on the direction of the player
         int entityLeftX = entity.worldX + entity.hitbox.x;
         int entityRightX = entity.worldX + entity.hitbox.x + entity.hitbox.width;
 

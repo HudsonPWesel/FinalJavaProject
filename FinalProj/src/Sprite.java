@@ -41,7 +41,7 @@ public class Sprite {
 
     }
 
-    private BufferedImage initSpriteSheet(String spriteSheetPath) {
+    public static BufferedImage initSprite(String spriteSheetPath) {
         // ImageIO.read(PathFinder(sprites[i]).toFile());
         try {
             return ImageIO.read(
@@ -104,7 +104,7 @@ public class Sprite {
     private void setSprites() {
 
         // Intilize Sprite Sheet Image
-        BufferedImage spriteSheetImage = initSpriteSheet(spritesheetFileName);
+        BufferedImage spriteSheetImage = initSprite(spritesheetFileName);
 
         // Get All Sprites and add them to a corrosponding HashMap(Row,
         // ArrayList<Sprites Associated w/ Animation> )

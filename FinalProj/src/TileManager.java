@@ -30,7 +30,7 @@ public class TileManager {
 
     private void setTileSprites() {
 
-        File directoryPath = new File("./FinalProj/Sprites/Background-Tiles");
+        File directoryPath = new File("./Sprites/Background-Tiles");
 
         String contents[] = directoryPath.list();
 
