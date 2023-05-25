@@ -9,12 +9,21 @@ public class KeyHandler implements KeyListener {
 
     }
 
+    /**
+     * Overriden Method for organizign and handling event
+     */
     @Override
     public void keyPressed(KeyEvent e) {
         int keyCode = e.getKeyCode();
         handleKeyPressInput(keyCode);
 
     }
+
+    /**
+     * Handles action on key input
+     * 
+     * @param keyCode
+     */
 
     private void handleKeyPressInput(int keyCode) {
         switch (keyCode) {
@@ -39,6 +48,11 @@ public class KeyHandler implements KeyListener {
         }
     }
 
+    /**
+     * Handles action on key release
+     * 
+     * @param keyCode
+     */
     private void handleKeyReleaseInput(int keyCode) {
         switch (keyCode) {
             case KeyEvent.VK_W:

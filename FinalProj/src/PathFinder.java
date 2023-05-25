@@ -8,6 +8,13 @@ public class PathFinder {
 
     private static Path filepath;
 
+    /**
+     * The most useful method ever, I would suggest a link, so that nobody has to
+     * worry about file paths ever again
+     * 
+     * @param filename
+     * @return
+     */
     public static Path getFilePathForFile(String filename) {
         try {
             filepath = Files.walk(Paths.get("."))

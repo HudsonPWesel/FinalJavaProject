@@ -8,6 +8,7 @@ public class App {
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.setResizable(false);
 
+        // Adds game panel to JFrame and starts game thread
         GamePanel gamePanel = new GamePanel();
         window.add(gamePanel);
         window.pack();

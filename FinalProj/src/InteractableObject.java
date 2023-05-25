@@ -9,6 +9,13 @@ public class InteractableObject {
     public BufferedImage singleSprite;
     public boolean isAlive;
 
+    /**
+     * 
+     * @param singleSprite A sprite
+     * @param name         Entity's name
+     * @param worldX
+     * @param worldY
+     */
     public InteractableObject(Sprite sprite, String name, int worldX, int worldY) {
         this.sprite = sprite;
         this.name = name;
@@ -17,6 +24,13 @@ public class InteractableObject {
 
     }
 
+    /**
+     * 
+     * @param singleSprite A sprite
+     * @param name         Entity's name
+     * @param worldX
+     * @param worldY
+     */
     public InteractableObject(BufferedImage singleSprite, String name, int worldX, int worldY) {
         this.singleSprite = singleSprite;
         this.name = name;
@@ -25,6 +39,13 @@ public class InteractableObject {
 
     }
 
+    /**
+     * Draws between animation sprites instead of one
+     * 
+     * @param g2d
+     * @param gamePanel
+     * @param animationCycleKey which animaiton cycle you would like to access
+     */
     public void draw(Graphics2D g2d, GamePanel gamePanel, String animationCycleKey) {
 
         int screenX = worldX - gamePanel.player.worldX + gamePanel.player.screenX;
@@ -44,6 +65,13 @@ public class InteractableObject {
                     screenY, gamePanel.tileSize, gamePanel.tileSize, null);
         }
     }
+
+    /**
+     * Draws the image if it is the bounds of the screen
+     * 
+     * @param g2d       tool to draw
+     * @param gamePanel game screen
+     */
 
     public void draw(Graphics2D g2d, GamePanel gamePanel) {
 

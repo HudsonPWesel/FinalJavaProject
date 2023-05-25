@@ -2,6 +2,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.util.Timer;
 
 import javax.sound.sampled.Clip;
 import javax.swing.JPanel;
@@ -25,6 +26,9 @@ public class GamePanel extends JPanel implements Runnable {
     public TileManager tileManager;
     public CollisionChecker collisionChecker = new CollisionChecker(this);
     public InteractableObject amongUs;
+    public InteractableObject jonTafferBoss;
+    public InteractableObject jonAngryTafferBoss;
+    public int damageCounter = 0;
 
     // World Settings
     public final int maxWorldCol = 50;
@@ -35,8 +39,20 @@ public class GamePanel extends JPanel implements Runnable {
     public boolean isBattlingBoss = false;
     public Clip amongUsClip;
     public Clip bossMusic;
+    public Clip jonTafferClip;
+    public int drawCount = 0;
+    public Clip backgroundMusic;
+
+    public int bossDamage = 0;
+    public Timer bossDamageTimer = new Timer();
+    boolean isAmongusBossDefeated = false;
+    boolean shouldSpawnJohnTaffer = false;
+    boolean isPlayingJon = false;
+
+    boolean isJonToggle = false;
 
     public GamePanel() {
+
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
         this.setBackground(Color.black);
         this.setDoubleBuffered(true);
@@ -46,6 +62,9 @@ public class GamePanel extends JPanel implements Runnable {
 
         amongUs = new InteractableObject(Sprite.initSprite("amongus"), "amongus", tileSize * 37,
                 tileSize * 8);
+        jonTafferBoss = new InteractableObject(Sprite.initSprite("jontaffer"), "jon", tileSize * 25,
+                tileSize * 39);
+
     }
 
     /**
@@ -54,8 +73,6 @@ public class GamePanel extends JPanel implements Runnable {
     public void startGameThread() {
         gameThread = new Thread(this);
         gameThread.start();
-
-        // SoundManager.playSound(PathFinder.getFilePathForFile("background.wav").toFile());
 
     }
 
@@ -110,9 +127,63 @@ public class GamePanel extends JPanel implements Runnable {
                 new Sprite("chests", new int[] { 120, 130 }, new String[] { "Chest-Opening" }, new int[] { 2 }),
                 "Chest", tileSize * 21,
                 tileSize * 23);
+
         chest.draw((Graphics2D) g, this, "Chest-Opening");
 
-        amongUs.draw((Graphics2D) g, this);
+        if (!isAmongusBossDefeated)
+            amongUs.draw((Graphics2D) g, this);
+        else if (isAmongusBossDefeated && drawCount < 2) {
+            amongUs.singleSprite = Sprite.initSprite("dabbing.png");
+            amongUs.draw((Graphics2D) g, this);
+            drawCount++;
+
+        }
+
+        if (shouldSpawnJohnTaffer) {
+
+            if (Math.abs(jonTafferBoss.worldX - player.worldX) < 100
+                    && Math.abs(jonTafferBoss.worldY - player.worldY) < 100) {
+                jonTafferBoss.singleSprite = Sprite.initSprite("jon-taffer");
+                jonTafferBoss.draw((Graphics2D) g, this);
+
+                if (damageCounter >= 75 && damageCounter != 0) {
+                    damageCounter = 0;
+                    player.health -= 1;
+                    SoundManager.playSound(PathFinder.getFilePathForFile("off.wav").toFile()).start();
+
+                } else if (damageCounter >= 75 && player.health == 0)
+                    SoundManager.playSound(PathFinder.getFilePathForFile("oof.wav").toFile()).start();
+
+                else {
+                    System.out.println(damageCounter);
+
+                    damageCounter++;
+                }
+
+            } else if (Math.abs(jonTafferBoss.worldX - player.worldX) < 200
+                    && Math.abs(jonTafferBoss.worldY - player.worldY) < 200) {
+                jonTafferBoss.singleSprite = Sprite.initSprite("jon");
+
+                jonTafferBoss.draw((Graphics2D) g, this);
+            }
+
+            if (!isPlayingJon) {
+
+                SoundManager.playSound(PathFinder.getFilePathForFile("victory.wav").toFile()).start();
+                try {
+                    Thread.sleep(7000);
+                } catch (InterruptedException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+                jonTafferClip = SoundManager.playSound(PathFinder.getFilePathForFile("jon.wav").toFile());
+                jonTafferClip.start();
+
+                isPlayingJon = true;
+
+            }
+
+        }
 
         drawHearts(g2d);
         g2d.dispose();
@@ -140,18 +211,29 @@ public class GamePanel extends JPanel implements Runnable {
 
             } else if (Math.abs(amongUs.worldX - player.worldX) < 80
                     && Math.abs(amongUs.worldY - player.worldY) < 100 && player.keyHandler.attackPressed) {
-                System.out.println("AMONGUS");
+
+                if (bossDamage < 30) {
+                    bossDamage++;
+
+                } else {
+                    isAmongusBossDefeated = true;
+                    bossMusic.stop();
+                    shouldSpawnJohnTaffer = true;
+                    isBattlingBoss = false;
+
+                }
                 // Check if player is damaging boss
 
             }
 
         } else {
-            System.out.println(Math.abs(amongUs.worldX - player.worldX));
-            System.out.println(Math.abs(amongUs.worldY - player.worldY));
+
             isPlayingBossTheme = false;
             isPlayingSoundEffect = false;
-            if (bossMusic != null)
+            if (bossMusic != null) {
                 bossMusic.stop();
+            }
+
         }
 
     }
